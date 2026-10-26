@@ -15,5 +15,30 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://cloudops:change-me@db:5432/cloudops
+      PORT: "3001"
+      CORS_ORIGIN: http://localhost:5173
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    ports:
+      - "127.0.0.1:5173:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
 volumes:
   postgres_data:
