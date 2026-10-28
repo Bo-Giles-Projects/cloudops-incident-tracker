@@ -5,3 +5,11 @@ node_modules/
 dist/
 .DS_Store
 *.log
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
